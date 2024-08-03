@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.apache.jena:jena:5.1.0")
+    implementation("org.apache.jena:jena-tdb2:5.1.0")
     testImplementation(kotlin("test"))
 }
 
