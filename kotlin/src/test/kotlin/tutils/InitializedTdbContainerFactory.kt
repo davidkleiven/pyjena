@@ -4,16 +4,37 @@ import com.github.davidkleiven.pyjena.TdbContainer
 import kotlin.io.path.writeText
 
 class InitializedTdbContainerFactory {
-    private fun containerFromResource(resource: String): TdbContainer {
-        val container = TdbContainer()
-        val content = InitializedTdbContainerFactory::class.java.getResource(resource)?.readText()!!
-        val file = kotlin.io.path.createTempFile("example1", ".rdf")
-        file.writeText(content)
-        container.load(listOf(file.toString()))
-        return container
+    private fun loadFromResources(
+        container: TdbContainer,
+        resources: List<String>,
+    ) {
+        val files =
+            resources.map {
+                val content = InitializedTdbContainerFactory::class.java.getResource(it)?.readText()!!
+                val prefix = it.split(".")[0].replace("/", "")
+                val file = kotlin.io.path.createTempFile(prefix, ".rdf")
+                file.writeText(content)
+                file.toString()
+            }.toList()
+
+        container.load(files)
     }
 
     fun example1(): TdbContainer {
-        return containerFromResource("/example1.rdf")
+        val container = TdbContainer()
+        loadFromResources(container, listOf("/example1.rdf"))
+        return container
+    }
+
+    fun example2(): TdbContainer {
+        val container = TdbContainer()
+        loadFromResources(container, listOf("/example2.rdf"))
+        return container
+    }
+
+    fun example1AndExample2(): TdbContainer {
+        val container = TdbContainer()
+        loadFromResources(container, listOf("/example1.rdf", "/example2.rdf"))
+        return container
     }
 }
