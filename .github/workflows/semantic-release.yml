@@ -14,10 +14,12 @@ jobs:
       uses: cycjimmy/semantic-release-action@v4
       with:
         semantic_version: 24.0.0
+        extra_plugins: |
+          @semantic-release/commit-analyzer
+          @semantic-release/git
         branches: |
           [
             'main'
           ]
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
