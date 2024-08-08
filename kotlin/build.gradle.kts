@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.0"
     application
+    id("com.gradleup.shadow") version "8.3.0"
 }
 
 group = "com.github.davidkleiven"
@@ -22,4 +23,15 @@ tasks.test {
 
 application {
     mainClass = "com.github.davidkleiven.pyjena.MainKt"
+}
+
+tasks.shadowJar {
+    manifest.attributes["Main-Class"] = application.mainClass
+    archiveFileName = "pyjena-service.jar"
+}
+
+tasks.register<Copy>("copy-jar-to-python") {
+    dependsOn("shadowJar")
+    from("build/libs/pyjena-service.jar")
+    into("../python/src/pyjena/backend")
 }
