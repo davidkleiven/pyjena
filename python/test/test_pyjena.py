@@ -10,4 +10,4 @@ def test_load_example1():
     wrapper.load([data_file])
     res = wrapper.exec_select("select (count(*) as ?cnt) where {?s ?p ?o}")
 
-    assert res.getResult().getBindings()[0]["cnt"].getValue() == "4"
+    assert list(res.result.bindings)[0]["cnt"].value == "4"
