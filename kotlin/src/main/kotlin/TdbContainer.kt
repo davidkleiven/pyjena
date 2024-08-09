@@ -9,7 +9,7 @@ import org.apache.jena.tdb2.TDB2Factory
 import org.apache.jena.tdb2.loader.Loader
 
 class TdbContainer {
-    val dataset: DatasetGraph = TDB2Factory.createDataset().asDatasetGraph()
+    private val dataset: DatasetGraph = TDB2Factory.createDataset().asDatasetGraph()
 
     fun load(
         dataURLs: List<String>,
