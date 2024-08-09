@@ -12,7 +12,7 @@ dependencies = [
 requires-python = ">=3.12"
 
 [tool.pdm.dev-dependencies]
-test = ["pytest"]
+test = ["pytest", "pytest-coverage"]
 
 [tool.pdm.resolution.overrides]
 py = ">=1.11.0"  # exact version
