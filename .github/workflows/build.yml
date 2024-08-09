@@ -30,10 +30,18 @@ jobs:
         java-version: '17'
         distribution: temurin
     - name: Check style
-      run: pip install pre-commit && pre-commit run --all
+      run: pip install pre-commit pdm && pre-commit run --all
     - name: Setup gradle
       uses: gradle/actions/setup-gradle@v4
     - name: Build with Gradle
       run: ./gradlew build
     - name: Run tests
       run: ./gradlew test
+    - name: Move jar to python
+      run: ./gradlew :copy-jar-to-python
+    - name: Install python package
+      working-directory: ./python
+      run: pdm install
+    - name: Run python tests
+      working-directory: ./python
+      run: pdm run pytest test
