@@ -13,3 +13,6 @@ class TdbContainerWrapper:
     def exec_select(self, query: str) -> SparqlResult:
         result = self.client.app.execSelect(query)
         return SparqlResult.from_java_object(result)
+
+    def exec_update(self, query: str) -> None:
+        self.client.app.execUpdate(query)

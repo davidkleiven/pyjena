@@ -12,3 +12,12 @@ def test_load_example1(client: GatewayClient):
     res = wrapper.exec_select("select (count(*) as ?cnt) where {?s ?p ?o}")
 
     assert list(res.result.bindings)[0]["cnt"].value == "4"
+
+
+def test_update(client: GatewayClient):
+    data_file = TEST_RESOURCES / "example1.rdf"
+    wrapper = TdbContainerWrapper(client)
+    wrapper.load([data_file])
+    wrapper.exec_update('INSERT DATA {_:b0 <http://a> "b"}')
+    res = wrapper.exec_select("select (count(*) as ?cnt) where {?s <http://a> ?o}")
+    assert list(res.result.bindings)[0]["cnt"].value == "1"
