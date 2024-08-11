@@ -50,3 +50,6 @@ jobs:
       with:
         pytest-coverage-path: ./pytest-coverage.txt
         junitxml-path: ./pytest.xml
+    - name: Run doctest
+      working-directory: ./python
+      run: pdm run python -m doctest ../README.md
