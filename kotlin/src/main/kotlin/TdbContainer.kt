@@ -7,6 +7,8 @@ import org.apache.jena.query.ResultSet
 import org.apache.jena.sparql.core.DatasetGraph
 import org.apache.jena.tdb2.TDB2Factory
 import org.apache.jena.tdb2.loader.Loader
+import org.apache.jena.update.UpdateAction
+import org.apache.jena.update.UpdateFactory
 
 class TdbContainer {
     private val dataset: DatasetGraph = TDB2Factory.createDataset().asDatasetGraph()
@@ -36,6 +38,17 @@ class TdbContainer {
                     }
                 }.toList()
             return SparqlResult(head, Result(bindings))
+        } finally {
+            dataset.end()
+        }
+    }
+
+    fun execUpdate(queryString: String) {
+        val updateRequest = UpdateFactory.create(queryString)
+        dataset.begin(ReadWrite.WRITE)
+        try {
+            UpdateAction.execute(updateRequest, dataset)
+            dataset.commit()
         } finally {
             dataset.end()
         }
