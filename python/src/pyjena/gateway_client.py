@@ -7,10 +7,10 @@ import time
 logger = logging.getLogger(__name__)
 
 
-def start_service(max_startup_time_sec: int) -> Popen:
+def start_service(max_startup_time_sec: int, java_cmd: str) -> Popen:
     pyjena_service = Path(__file__).parent / "backend/pyjena-service.jar"
     logger.info("Launching the pyjena-service")
-    proc = Popen(["java", "-jar", pyjena_service], stdin=PIPE)
+    proc = Popen([java_cmd, "-jar", pyjena_service], stdin=PIPE)
 
     # TODO: Make something more solid. Perhaps let the suprocess write something
     # to a file when it is started
@@ -31,9 +31,9 @@ def create_fresh_gateway() -> JavaGateway:
 
 
 class GatewayClient:
-    def __init__(self, max_startup_time_sec: int = 1) -> None:
+    def __init__(self, max_startup_time_sec: int = 1, java_cmd: str = "java") -> None:
         self.gateway = create_fresh_gateway()
-        self.proc = start_service(max_startup_time_sec)
+        self.proc = start_service(max_startup_time_sec, java_cmd)
 
     @property
     def app(self) -> JavaObject:
