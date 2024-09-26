@@ -18,6 +18,7 @@ jobs:
           @semantic-release/commit-analyzer
           @semantic-release/git
           @semantic-release/release-notes-generator
+          @semantic-release/github
         branches: |
           [
             'main'
