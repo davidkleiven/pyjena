@@ -1,11 +1,19 @@
-dependabot:
-  name: Dependabot
-  needs: [build-kotlin, commitlint]
-  runs-on: ubuntu-latest
-  if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'}} # Detect that the PR author is dependabot
-  steps:
-  - name: Enable auto-merge for Dependabot PRs
-    run: gh pr merge --auto --merge "$PR_URL"   # Use Github CLI to merge automatically the PR
-    env:
-      PR_URL: ${{github.event.pull_request.html_url}}
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+name: Depndabot auto-merge
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot:
+    name: Dependabot
+    needs: [build-kotlin, commitlint]
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }} # Detect that the PR author is dependabot
+    steps:
+    - name: Enable auto-merge for Dependabot PRs
+      run: gh pr merge --auto --merge "$PR_URL"   # Use Github CLI to merge automatically the PR
+      env:
+        PR_URL: ${{github.event.pull_request.html_url}}
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
