@@ -43,7 +43,7 @@ jobs:
       run: ./gradlew :copy-jar-to-python
     - name: Install python package
       working-directory: ./python
-      run: uv install
+      run: uv sync
     - name: Run python tests
       working-directory: ./python
       run: uv run pytest --junitxml=../pytest.xml --cov-report=term-missing:skip-covered --cov=src test/ | tee ../pytest-coverage.txt
