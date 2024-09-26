@@ -17,6 +17,7 @@ jobs:
         extra_plugins: |
           @semantic-release/commit-analyzer
           @semantic-release/git
+          @semantic-release/release-notes-generator
         branches: |
           [
             'main'
